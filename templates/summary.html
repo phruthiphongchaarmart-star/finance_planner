@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>สรุปแผนการเงิน</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; background: #eef2ff; }
+    h1 { color: #1d4ed8; }
+    .box { background: #fff; padding: 1rem 2rem; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    th { background: #3b82f6; color: #fff; }
+    .actions { margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>✅ สรุปแผนการเงิน</h1>
+  <div class="box">
+    <p>รายได้: {{ currency(summary.income) }} บาท</p>
+    <p>รายจ่ายรวม: {{ currency(summary.total_expenses) }} บาท</p>
+    <p>การแบ่งงบ {{ summary.ratio[0] }}/{{ summary.ratio[1] }}/{{ summary.ratio[2] }}</p>
+    <ul>
+      <li>จำเป็น: {{ currency(summary.need) }} บาท</li>
+      <li>ไลฟ์สไตล์: {{ currency(summary.want) }} บาท</li>
+      <li>ออม/ลงทุน: {{ currency(summary.save) }} บาท</li>
+    </ul>
+    <p>เป้าหมายกองทุนฉุกเฉิน: {{ currency(summary.emergency_target) }} บาท</p>
+
+    <h3>💸 รายการรายจ่าย</h3>
+    <table>
+      <tr><th>หมวด</th><th>จำนวนเงิน</th></tr>
+      {% for k,v in summary.expenses.items() %}
+      <tr><td>{{ k }}</td><td>{{ currency(v) }}</td></tr>
+      {% endfor %}
+    </table>
+
+    <div class="actions">
+      <form action="/download_txt" method="POST">
+        <input type="hidden" name="income" value="{{ summary.income }}">
+        <input type="hidden" name="total_expenses" value="{{ summary.total_expenses }}">
+        <input type="hidden" name="expenses" value="{{ summary.expenses }}">
+        <button type="submit">⬇ ดาวน์โหลด TXT</button>
+      </form>
+
+      <form action="/download_csv" method="POST">
+        <input type="hidden" name="expenses" value="{{ summary.expenses }}">
+        <button type="submit">⬇ ดาวน์โหลด CSV</button>
+      </form>
+
+      <form action="/download_excel" method="POST">
+        <input type="hidden" name="expenses" value="{{ summary.expenses }}">
+        <button type="submit">⬇ ดาวน์โหลด Excel</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

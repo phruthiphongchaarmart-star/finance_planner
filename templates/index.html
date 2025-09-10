@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>วางแผนการเงินส่วนบุคคล</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; background: #f9fafb; }
+    h1 { color: #4f46e5; }
+    .box { background: #fff; padding: 1rem 2rem; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    input, button { margin: 0.3rem 0; padding: 0.5rem; }
+    .expense-row { display: flex; gap: 0.5rem; }
+  </style>
+  <script>
+    function addExpenseRow() {
+      let container = document.getElementById("expenses");
+      let div = document.createElement("div");
+      div.className = "expense-row";
+      div.innerHTML = `<input type="text" name="expense_name" placeholder="หมวด เช่น ค่าเช่า">
+                       <input type="number" name="expense_value" placeholder="จำนวนเงิน">`;
+      container.appendChild(div);
+    }
+  </script>
+</head>
+<body>
+  <h1>📊 วางแผนการเงินส่วนบุคคล</h1>
+  <div class="box">
+    <form method="POST">
+      <label>รายได้สุทธิต่อเดือน:</label><br>
+      <input type="number" name="income" required><br><br>
+
+      <label>จำนวนเดือนที่ต้องการกองทุนฉุกเฉิน:</label><br>
+      <input type="number" name="emergency_months" value="3"><br><br>
+
+      <label>สูตรแบ่งงบ (%):</label><br>
+      จำเป็น <input type="number" name="need_pct" value="50"> %
+      ไลฟ์สไตล์ <input type="number" name="want_pct" value="30"> %
+      ออมและลงทุน <input type="number" name="need_pct" value="20"> %<br><br>
+
+      <h3>💸 รายการรายจ่าย</h3>
+      <div id="expenses"></div>
+      <button type="button" onclick="addExpenseRow()">+ เพิ่มรายการ</button><br><br>
+
+      <button type="submit">สร้างแผนการเงิน</button>
+    </form>
+  </div>
+</body>
+</html>
